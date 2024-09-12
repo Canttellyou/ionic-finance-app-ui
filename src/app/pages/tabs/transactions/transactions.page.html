@@ -1,0 +1,41 @@
+<ion-header class="ion-no-border" translucent>
+  <ion-toolbar>
+    <ion-title color="primary">
+      Transactions
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment mode="ios" [value]="segmentValue" class="ion-margin-horizontal" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="in">
+        <ion-label>In-flow</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="out">
+        <ion-label>Out-flow</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="secondary" [fullscreen]="true">
+  <ion-list class="transactions">
+    <ion-item-group>
+      @for (transaction of transactions; track $index) {
+      <ion-item lines="full">
+        <ion-thumbnail slot="start" class="ion-text-center">
+          <img [src]="'assets/images/' + (transaction.amount >= 0? 'up-right.png' : 'down-left-arrow.png')" />
+        </ion-thumbnail>
+        <ion-label>
+          <ion-text color="primary">{{transaction?.to}}</ion-text>
+          <p>
+            <ion-text color="primary">
+              {{(transaction.amount >= 0? transaction?.amount : '-' + (transaction.amount * (-1))) |
+              currency:'USD':true}}
+            </ion-text>
+            <ion-text *ngIf="transaction.date">{{transaction.date | date: 'MMM dd, yyyy' }}</ion-text>
+          </p>
+        </ion-label>
+      </ion-item>
+      }
+    </ion-item-group>
+  </ion-list>
+</ion-content>

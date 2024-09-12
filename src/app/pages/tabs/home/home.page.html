@@ -1,0 +1,87 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title mode="md" class="ion-no-padding">
+      <ion-label>
+        <ion-text color="tertiary">
+          Welcome
+        </ion-text>
+        <p><ion-text color="white"><strong>Jason Akbar</strong></ion-text></p>
+      </ion-label>
+    </ion-title>
+    <ion-avatar slot="end">
+      <img src="assets/images/avatar.jfif" />
+
+    </ion-avatar>
+  </ion-toolbar>
+</ion-header>
+<!-- [navigation]="{
+  nextEl: '.swiper-button-next',
+  prevEl: '.swiper-button-prev',
+  }" -->
+<ion-content color="primary">
+  <swiper-container [modules]="swiperModules" [slidesPerView]="1" [keyboard]="true" [pagination]="{clickable: true}">
+    @for (account of accounts; track $index) {
+    <swiper-slide>
+      <ion-row class="banners">
+        <div align="center">
+          <ion-label class="ion-align-items-center">
+            <span>Total Balance</span>
+            <p class="acc-amt">
+              <ion-text color="white">
+                {{ account?.balance | currency:'USD':true }}
+              </ion-text>
+            </p>
+            <span>{{account?.acc_no}}</span>
+          </ion-label>
+
+        </div>
+      </ion-row>
+    </swiper-slide>
+    }
+  </swiper-container>
+  <swiper-container [modules]="swiperModules" [slidesPerView]="3" [keyboard]="true" [pagination]="{clickable: true}">
+    @for (feature of features; track $index) {
+    <swiper-slide>
+      <ion-row class="feature-list ion-text-center" *ngIf="features.length > 0">
+        <div>
+          <ion-button slot="icon-only" [color]="feature?.color">
+            <ion-icon [name]="feature?.icon"></ion-icon>
+          </ion-button>
+          <ion-label>{{feature?.name}}</ion-label>
+        </div>
+      </ion-row>
+    </swiper-slide>
+    }
+  </swiper-container>
+
+  <ion-list class="transactions" *ngIf="transactions.length > 0">
+
+    <ion-list-header>
+      <ion-label color="medium">Transactions</ion-label>
+    </ion-list-header>
+
+    <ion-item-group>
+
+      @for (transaction of transactions; track $index) {
+      <ion-item lines="full">
+        <ion-thumbnail slot="start" class="ion-text-center">
+          <img [src]="'assets/images/' + (transaction.amount >= 0 ? 'up-right.png' : 'down-left-arrow.png')" />
+        </ion-thumbnail>
+        <ion-label>
+          <ion-text>{{transaction?.to}}</ion-text>
+          <p>
+            <ion-text>
+              {{transaction?.date | date: 'MMM d, y'}}
+            </ion-text>
+          </p>
+        </ion-label>
+        <ion-text slot="end" color="primary">
+          {{(transaction.amount >= 0 ? transaction?.amount : '-' + (transaction.amount * (-1))) | currency:'USD':true}}
+        </ion-text>
+      </ion-item>
+      }
+
+    </ion-item-group>
+
+  </ion-list>
+</ion-content>
